@@ -1,0 +1,76 @@
+<div class="index-pages-wrapper">
+  <div class="container">
+    <div class="row">
+      <%= form_tag pages_path, method: :get do %>
+        <div class="col-md-offset-2 col-md-2 form-group">
+          <%= text_field_tag :keyword, '', class: 'form-control' %>
+        </div>
+        <div class="col-md-2 form-group">
+          <%= select_tag :category, options_for_select([["作成日時", "created_at"], ["タイトル", "title"], ["作業終了予定日", "schedule_date"], ["作業開始日", "start_date"], ["作業終了日", "end_date"], ["優先度", "priority"], ["ステータス", "status"]]), class: 'form-control' %>
+        </div>
+        <div class="col-md-2 form-group">
+          <%= submit_tag '検索', class: 'btn btn-default' %>
+        </div>
+      <% end %>
+      <div class="col-md-2 dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          並び替え
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li> <%= sortable "created_at", "作成日時" %> </li>
+          <li> <%= sortable "title", "タイトル" %> </li>
+          <li> <%= sortable "schedule_date", "作業終了予定日" %> </li>
+          <li> <%= sortable "start_date", "作業開始日" %> </li>
+          <li> <%= sortable "end_date", "作業終了日" %> </li>
+          <li> <%= sortable "priority", "優先度" %> </li>
+          <li> <%= sortable "status", "ステータス" %> </li>
+        </ul>
+      </div>
+    </div>
+    <table class="table table-hover table-responsive">
+      <tr>
+        <th>タイトル</th>
+        <th>優先度</th>
+        <th>ステータス</th>
+        <th>作業終了予定日</th>
+        <th>作業開始日</th>
+        <th>作業終了日</th>
+      </tr>
+      <% @topics.each do |topic| %>
+        <tr>
+          <td>
+            <%= link_to new_topic_path(id: topic.id) do %>
+              <%= topic.title %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to new_topic_path(id: topic.id) do %>
+              <%= topic.priority %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to new_topic_path(id: topic.id) do %>
+              <%= topic.status %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to new_topic_path(id: topic.id) do %>
+              <%= topic.schedule_date %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to new_topic_path(id: topic.id) do %>
+              <%= topic.start_date %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to new_topic_path(id: topic.id) do %>
+              <%= topic.end_date %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
