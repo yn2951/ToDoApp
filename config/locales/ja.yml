@@ -1,0 +1,12 @@
+
+ja:
+  enums:
+    topic:
+      priority:
+        low: 低
+        high: 高
+
+      status:
+        no_touch: 未着手
+        processing: 処理中
+        done: 完了

@@ -16,11 +16,11 @@ ActiveRecord::Schema.define(version: 2018_12_10_072730) do
     t.integer "user_id"
     t.string "title"
     t.string "description"
-    t.date "start_date"
-    t.date "schedule_date"
-    t.date "end_date"
-    t.string "priority", default: "低"
-    t.string "status", default: "未着手"
+    t.date "start_date", default: "2018-12-24"
+    t.date "schedule_date", default: "2018-12-24"
+    t.date "end_date", default: "2018-12-24"
+    t.integer "priority", limit: 1, default: 0, null: false
+    t.integer "status", limit: 1, default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

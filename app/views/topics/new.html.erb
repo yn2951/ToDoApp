@@ -1,5 +1,7 @@
 <% if params[:id] %>
-  <% @topic = Topic.find_by(id: params[:id]) %>
+  <% @topic = Topic.find(params[:id]) %>
+<% else %>
+  <% @topic.schedule_date = Date.today %>
 <% end %>
 
 <div class="new-topic-wrapper">
@@ -8,23 +10,23 @@
       <%= form_for @topic do |f| %>
         <div class="form-group col-md-6 col-md-offset-3">
           <%= f.label :タイトル： %>
-          <%= f.text_area :title, class: 'form-control'%>
+          <%= f.text_area :title, class: 'form-control', placeholder: 'タイトル'%>
         </div>
 
         <div class="form-group col-md-6 col-md-offset-3">
           <%= f.label :説明： %>
-          <%= f.text_area :description, class: 'form-control' %>
+          <%= f.text_area :description, class: 'form-control', placeholder: '説明' %>
         </div>
 
         <div class="form-group col-md-6 col-md-offset-3">
           <%= f.label :優先度： %>
-          <%= f.select :priority, [["低", "低"], ["高", "高"]] %>
+          <%= f.select :priority, Topic.priorities.keys.map { |k| [Topic.priorities_i18n[k], k]} %>
         </div>
 
         <% if params[:id] %>
           <div class="form-group col-md-6 col-md-offset-3">
             <span class="sentence">
-              ステータス：<%= @topic.status %>
+              ステータス：<%= @topic.status_i18n %>
             </span>
           </div>
         <% end %>
@@ -34,15 +36,13 @@
           <%= f.date_field :schedule_date %>
         </div>
 
-        <% if @topic.start_date != nil %>
+        <% if @topic.start_date != Date.new(2018, 12, 24) || @topic.end_date != Date.new(2018, 12, 24) %>
           <div class="form-group col-md-6 col-md-offset-3">
             <span class="sentence">
               作業開始日：<%= @topic.start_date %>
             </span>
           </div>
-        <% end %>
 
-        <% if @topic.end_date != nil %>
           <div class="form-group col-md-6 col-md-offset-3">
             <span class="sentence">
               作業終了日：<%= @topic.end_date %>
@@ -52,10 +52,10 @@
 
         <div class="form-group">
           <%= link_to date_update_path(id: @topic.id), method: :update do %>
-            <% if @topic.status == "未着手" && params[:id] && logged_in? %>
-              <button type="button" name="button" class="btn btn-default start-end col-md-2 col-md-offset-5">開始</button>
-            <% elsif @topic.status == "処理中" && logged_in? %>
-              <button type="button" name="button" class="btn btn-default start-end col-md-2 col-md-offset-5">終了</button>
+            <% if @topic.no_touch? && params[:id] && logged_in? %>
+              <button type="button" name="button" class="btn btn-default new-start-end col-md-2 col-md-offset-5">開始</button>
+            <% elsif @topic.processing? && logged_in? %>
+              <button type="button" name="button" class="btn btn-default new-start-end col-md-2 col-md-offset-5">終了</button>
             <% end %>
           <% end %>
         </div>

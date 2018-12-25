@@ -15,7 +15,7 @@ class TopicsController < ApplicationController
   end
 
   def update
-    if @topic = Topic.find_by(id: params[:id]).update(topic_params)
+    if @topic = Topic.find(params[:id]).update(topic_params)
       redirect_to pages_path, success: '編集内容を保存しました'
     else
       flash.now[:danger] = "編集内容の保存に失敗しました"
@@ -24,19 +24,19 @@ class TopicsController < ApplicationController
   end
 
   def date_update
-    if Topic.find_by(id: params[:id]).status != '処理中'
-      if @topic = Topic.find_by(id: params[:id]).update(status: '処理中', start_date: Date.today)
-        render :new
+    if Topic.find(params[:id]).no_touch?
+      if @topic = Topic.find(params[:id]).update(status: 1, start_date: Date.today)
+        redirect_back(fallback_location: root_path)
       else
         flash.now[:danger] = "編集内容の保存に失敗しました"
-        render :new
+        redirect_back(fallback_location: root_path)
       end
-    else
-      if @topic = Topic.find_by(id: params[:id]).update(status: '完了', end_date: Date.today)
-        render :new
+    elsif Topic.find(params[:id]).processing?
+      if @topic = Topic.find(params[:id]).update(status: 2, end_date: Date.today)
+        redirect_back(fallback_location: root_path)
       else
         flash.now[:danger] = "編集内容の保存に失敗しました"
-        render :new
+        redirect_back(fallback_location: root_path)
       end
     end
   end

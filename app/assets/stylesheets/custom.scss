@@ -54,9 +54,11 @@ ul {
 
 .table {
   margin-top: 30px;
+  table-layout: fixed;
+  width: 100%;
 }
 
-.table th, .table tr {
+.table th, .table td {
   text-align: center;
 }
 
@@ -69,10 +71,14 @@ ul {
   text-decoration: none;
 }
 
+.cell {
+  min-height: 22px;
+}
+
 .sentence {
   font-weight: bold;
 }
 
-.start-end {
+.new-start-end {
   margin-bottom: 15px;
 }
