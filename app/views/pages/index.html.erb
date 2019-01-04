@@ -39,7 +39,7 @@
                 <%= select_tag :status, options_for_select(Topic.statuses.map {|k, v| [Topic.statuses_i18n[k], v]}), :prompt => "未選択", class: 'form-control' %>
               </div>
               <div class="col-md-offset-1 col-md-10 form-group">
-                <%= label_tag :終了予定日： %>
+                <%= label_tag :作業終了予定日： %>
                 <%= date_field_tag :schedule_date, '', class: 'form-control' %>
               </div>
               <div class="col-md-offset-1 col-md-10 form-group">
