@@ -76,21 +76,21 @@
         <tr>
           <td>
             <div class="cell">
-              <%= link_to new_topic_path(id: topic.id) do %>
+              <%= link_to edit_topic_path(id: topic.id) do %>
                 <%= topic.title %>
               <% end %>
             </div>
           </td>
           <td>
             <div class="cell">
-              <%= link_to new_topic_path(id: topic.id) do %>
+              <%= link_to edit_topic_path(id: topic.id) do %>
                 <%= topic.priority_i18n %>
               <% end %>
             </div>
           </td>
           <td>
             <div class="cell">
-              <%= link_to new_topic_path(id: topic.id) do %>
+              <%= link_to edit_topic_path(id: topic.id) do %>
                 <%= topic.status_i18n %>
               <% end %>
             </div>
@@ -98,7 +98,7 @@
           <td>
             <div class="cell">
               <% if topic.schedule_date != Date.new(2018, 12, 24) %>
-                <%= link_to new_topic_path(id: topic.id) do %>
+                <%= link_to edit_topic_path(id: topic.id) do %>
                   <%= topic.schedule_date %>
                 <% end %>
               <% end %>
@@ -107,7 +107,7 @@
           <td>
             <div class="cell">
               <% if topic.start_date != Date.new(2018, 12, 24) %>
-                <%= link_to new_topic_path(id: topic.id) do %>
+                <%= link_to edit_topic_path(id: topic.id) do %>
                   <%= topic.start_date %>
                 <% end %>
               <% end %>
@@ -116,14 +116,14 @@
           <td>
             <div class="cell">
               <% if topic.end_date != Date.new(2018, 12, 24) %>
-                <%= link_to new_topic_path(id: topic.id) do %>
+                <%= link_to edit_topic_path(id: topic.id) do %>
                   <%= topic.end_date %>
                 <% end %>
               <% end %>
             </div>
           </td>
           <td>
-            <%= link_to date_update_path(id: topic.id), method: :update do %>
+            <%= link_to start_end_path(id: topic.id), method: :update do %>
               <% if topic.no_touch? && logged_in? %>
                 <button type="button" name="button" class="btn btn-default btn-xs">開始</button>
               <% elsif topic.processing? && logged_in? %>

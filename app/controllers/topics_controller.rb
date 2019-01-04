@@ -1,6 +1,11 @@
 class TopicsController < ApplicationController
   def new
     @topic = Topic.new
+    @topic.schedule_date = Date.today
+  end
+
+  def edit
+    set_topic
   end
 
   def create
@@ -15,7 +20,7 @@ class TopicsController < ApplicationController
   end
 
   def update
-    if @topic = Topic.find(params[:id]).update(topic_params)
+    if set_topic.update(topic_params)
       redirect_to pages_path, success: '編集内容を保存しました'
     else
       flash.now[:danger] = "編集内容の保存に失敗しました"
@@ -23,16 +28,16 @@ class TopicsController < ApplicationController
     end
   end
 
-  def date_update
-    if Topic.find(params[:id]).no_touch?
-      if @topic = Topic.find(params[:id]).update(status: 1, start_date: Date.today)
+  def start_end
+    if set_topic.no_touch?
+      if set_topic.update(status: 1, start_date: Date.today)
         redirect_back(fallback_location: root_path)
       else
         flash.now[:danger] = "編集内容の保存に失敗しました"
         redirect_back(fallback_location: root_path)
       end
-    elsif Topic.find(params[:id]).processing?
-      if @topic = Topic.find(params[:id]).update(status: 2, end_date: Date.today)
+    elsif set_topic.processing?
+      if set_topic.update(status: 2, end_date: Date.today)
         redirect_back(fallback_location: root_path)
       else
         flash.now[:danger] = "編集内容の保存に失敗しました"
@@ -42,6 +47,10 @@ class TopicsController < ApplicationController
   end
 
   private
+  def set_topic
+    @topic = Topic.find(params[:id])
+  end
+
   def topic_params
     params.require(:topic).permit(:title, :description, :priority, :schedule_date)
   end

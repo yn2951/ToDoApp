@@ -1,0 +1,68 @@
+<div class="new-topic-wrapper">
+  <div class="container">
+    <div class="row">
+      <%= form_for @topic do |f| %>
+        <div class="form-group col-md-6 col-md-offset-3">
+          <%= f.label :タイトル： %>
+          <%= f.text_area :title, class: 'form-control', placeholder: 'タイトル'%>
+        </div>
+
+        <div class="form-group col-md-6 col-md-offset-3">
+          <%= f.label :説明： %>
+          <%= f.text_area :description, class: 'form-control', placeholder: '説明' %>
+        </div>
+
+        <div class="form-group col-md-6 col-md-offset-3">
+          <%= f.label :優先度： %>
+          <%= f.select :priority, Topic.priorities.keys.map { |k| [Topic.priorities_i18n[k], k]} %>
+        </div>
+
+        <% if params[:id] %>
+          <div class="form-group col-md-6 col-md-offset-3">
+            <span class="sentence">
+              ステータス：<%= @topic.status_i18n %>
+            </span>
+          </div>
+        <% end %>
+
+        <div class="form-group col-md-6 col-md-offset-3">
+          <%= f.label :終了予定日： %>
+          <%= f.date_field :schedule_date %>
+        </div>
+
+        <% if @topic.start_date != Date.new(2018, 12, 24) || @topic.end_date != Date.new(2018, 12, 24) %>
+          <% if !@topic.no_touch? %>
+            <div class="form-group col-md-6 col-md-offset-3">
+              <span class="sentence">
+                作業開始日：<%= @topic.start_date %>
+              </span>
+            </div>
+          <% end %>
+          <% if @topic.done? %>
+            <div class="form-group col-md-6 col-md-offset-3">
+              <span class="sentence">
+                作業終了日：<%= @topic.end_date %>
+              </span>
+            </div>
+          <% end %>
+        <% end %>
+
+        <div class="form-group">
+          <%= link_to start_end_path(id: @topic.id), method: :update do %>
+            <% if @topic.no_touch? && params[:id] && logged_in? %>
+              <button type="button" name="button" class="btn btn-default new-start-end col-md-2 col-md-offset-5">開始</button>
+            <% elsif @topic.processing? && logged_in? %>
+              <button type="button" name="button" class="btn btn-default new-start-end col-md-2 col-md-offset-5">終了</button>
+            <% end %>
+          <% end %>
+        </div>
+
+        <% if logged_in? && params[:id] %>
+          <%= f.submit '編集内容を保存する', class: 'btn btn-default col-md-2 col-md-offset-5' %>
+        <% elsif logged_in? %>
+          <%= f.submit '作成内容を保存する', class: 'btn btn-default col-md-2 col-md-offset-5' %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -9,5 +9,5 @@ Rails.application.routes.draw do
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
 
-  post '/date_update', to: 'topics#date_update'
+  post '/start_end', to: 'topics#date_update'
 end

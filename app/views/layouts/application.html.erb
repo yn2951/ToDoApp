@@ -25,7 +25,7 @@
               <%= link_to '新規作成', new_topic_path, class: 'btn btn-default btn-black' %>
             </li>
             <li>
-              <%= link_to 'ログアウト', logout_path, class: 'btn btn-default btn-black', method: :delete %>
+              <%= link_to 'ログアウト', logout_path, class: 'btn btn-default btn-black', method: :delete, data: { confirm: 'ログアウトしますか？' } %>
             </li>
           <% else %>
             <li>
