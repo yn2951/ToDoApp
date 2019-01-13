@@ -30,14 +30,14 @@ class TopicsController < ApplicationController
 
   def start_end
     if set_topic.no_touch?
-      if set_topic.update(status: 1, start_date: Date.today)
+      if set_topic.update(status: :processing, start_date: Date.today)
         redirect_back(fallback_location: root_path)
       else
         flash.now[:danger] = "編集内容の保存に失敗しました"
         redirect_back(fallback_location: root_path)
       end
     elsif set_topic.processing?
-      if set_topic.update(status: 2, end_date: Date.today)
+      if set_topic.update(status: :done, end_date: Date.today)
         redirect_back(fallback_location: root_path)
       else
         flash.now[:danger] = "編集内容の保存に失敗しました"
