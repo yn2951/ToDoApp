@@ -11,6 +11,6 @@ class PagesController < ApplicationController
   end
 
   def sort_column
-      Topic.column_names.include?(params[:sort]) ? params[:sort] : "created_at"
+    Topic.column_names.include?(params[:sort]) ? params[:sort] : "created_at"
   end
 end
