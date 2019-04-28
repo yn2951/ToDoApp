@@ -2,7 +2,11 @@ class PagesController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   def index
-    @topics = Topic.all.search(params[:title], params[:priority], params[:status], params[:schedule_date], params[:start_date], params[:end_date], params[:created_at]).order(sort_column + ' ' + sort_direction)
+    if current_user.present?
+      @topics = Topic.where(user_id: current_user.id).search(params[:title], params[:priority], params[:status], params[:schedule_date], params[:start_date], params[:end_date], params[:created_at]).order(sort_column + ' ' + sort_direction)
+    else
+      @topics = Topic.where(user_id: nil)
+    end
   end
 
   private
